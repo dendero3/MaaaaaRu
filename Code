@@ -1,0 +1,94 @@
+PImage b;
+int i;
+int imax;
+int j;
+int p;
+int n;
+int s1=1366;
+int s2=150;
+int s=(s2+2)*(s2+3);
+int xs = 238;
+int ys = 350;
+int xl = 228;
+int yl = 330;
+color [] c = new color[s];
+float [] d = new float[s];
+int [] x = new int[s];
+int [] y = new int[s];
+float r1 = PI/(2*s);
+float r2 = sqrt(2);
+float k;
+
+void setup() {
+
+  size(1080,1920);
+  b = loadImage("PrtSc.png");
+
+
+}  
+
+
+
+void draw() {
+
+  image(b,0,0);
+  
+  i=0;
+
+  for(p=0; p<=s2/2; p++) {
+    for(n=0; n<=2*p; n++) {
+      if(xs+p>=0 && ys-p+n>=0) {
+      c[i]=get(xs+p,ys-p+n);
+      d[i]=cos(r1*i);
+      k=(PI/2)/(2*p+1);
+      x[i]=int(xs-(p+0)*r2*cos(3*PI/4 - k*n));
+      y[i]=int(ys+(p+0)*r2*sin(3*PI/4 - k*n));      
+      i++;
+      }
+      if(xs+p-n>=0 && ys+p+1>=0) {
+      c[i]=get(xs+p-n,ys+p+1);
+      d[i]=cos(r1*i);
+      k=(PI/2)/(2*p+1);
+      x[i]=int(xs-(p+2)*r2*cos(5*PI/4 - k*n));
+      y[i]=int(ys+(p+2)*r2*sin(5*PI/4 - k*n));      
+      i++;
+      }
+    }
+    for(n=0; n<=2*p+1; n++) {
+      if(xs-p-1>=0 && ys+p+1-n>=0) {
+      c[i]=get(xs-p-1,ys+p+1-n);
+      d[i]=cos(r1*i);
+      k=(PI/2)/(2*(p+1));
+      x[i]=int(xs-(p+10)*r2*cos(-PI/4 - k*n));
+      y[i]=int(ys+(p+10)*r2*sin(-PI/4 - k*n));      
+      i++;
+      }
+      if(xs-p-1+n>=0 && ys-p-1>=0) {
+      c[i]=get(xs-p-1+n,ys-p-1);
+      d[i]=cos(r1*i);
+      k=(PI/2)/(2*(p+1));
+      x[i]=int(xs-(p+6)*r2*cos(PI/4 - k*n));
+      y[i]=int(ys+(p+6)*r2*sin(PI/4 - k*n)); 
+      i++;
+      }
+    }
+  }  
+  
+  imax=i-1;
+
+  xl=mouseX;
+  yl=mouseY;  
+
+  for(j=imax; j>0; j--) {
+    stroke(c[j-1]);
+    line(d[j]*xl+(1-d[j])*x[j],d[j]*yl+(1-d[j])*y[j],d[j-1]*xl+(1-d[j-1])*x[j-1],d[j-1]*yl+(1-d[j-1])*y[j-1]);
+  }
+}
+
+
+void mouseClicked() {
+  
+  xs=mouseX;
+  ys=mouseY;
+  
+}
